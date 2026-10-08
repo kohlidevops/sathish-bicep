@@ -2,7 +2,11 @@ using '../modules/main.bicep'
 
 param environment = 'dev'
 param location = 'centralus'
+
 param vmAdminPassword = 'MySuperSecret@321'
+
+param sqlAdministratorLoginPassword = 'yYZZlma0UXQZYKHXCGYKyrdKOEIzGeV3'
+
 
 param landingZones = {
   resourceGroups: [
@@ -180,6 +184,27 @@ param landingZones = {
       keyVaultName: 'kv-dev-cu120901'
       resourceGroupName: 'rg-dev-n'
       location: location
+    }
+  ]
+
+  // Azure SQL
+  sqlServers: [
+    {
+      sqlServerName: 'sqldev-cu120901'
+      sqlDatabaseName: 'appdb'
+      resourceGroupName: 'rg-dev-n'
+      location: location
+      administratorLogin: 'sqladmin'
+      databaseSkuName: 'Basic'
+      databaseMaxSizeBytes: 2147483648
+      minimalTlsVersion: '1.2'
+      publicNetworkAccess: 'Disabled'
+      tags: {
+        Environment: environment
+        CostCenter: 'CC1001'
+        Application: 'LandingZone'
+        Team: 'CloudOps'
+      }
     }
   ]
 
