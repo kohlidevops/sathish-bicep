@@ -23,7 +23,9 @@ param landingZones = {
       vnetName: 'hubvnet'
       location: location
       resourceGroupName: 'rg-dev-n'
-      addressPrefixes: ['10.0.0.0/16']
+      addressPrefixes: [
+        '10.0.0.0/16'
+      ]
       tags: {
         Environment: environment
         CostCenter: 'CC1001'
@@ -47,7 +49,9 @@ param landingZones = {
       vnetName: 'spokevnet'
       location: location
       resourceGroupName: 'rg-dev-n'
-      addressPrefixes: ['10.1.1.0/24']
+      addressPrefixes: [
+        '10.1.1.0/24'
+      ]
       tags: {
         Environment: environment
         CostCenter: 'CC1001'
@@ -79,9 +83,9 @@ param landingZones = {
       vnetName: 'hubvnet'
       subnetName: 'appsubnet'
       adminUsername: 'azureuser'
-      keyVaultName: 'kv-test-dev-centralus120901'
+      keyVaultName: 'kv-dev-cu120901'
       vmsize: 'Standard_D2s_v3'
-      asgName: 'asg-dev-centralus'
+      asgName: 'asg-dev-hub-centralus'
       tags: {
         Environment: environment
         CostCenter: 'CC1001'
@@ -96,8 +100,9 @@ param landingZones = {
       vnetName: 'spokevnet'
       subnetName: 'appsubnetspoke'
       adminUsername: 'azureuser'
+      keyVaultName: 'kv-dev-cu120901'
       vmsize: 'Standard_D2s_v3'
-      asgName: 'asg-dev-centralus'
+      asgName: 'asg-dev-spoke-centralus'
       tags: {
         Environment: environment
         CostCenter: 'CC1001'
@@ -109,7 +114,12 @@ param landingZones = {
 
   asgs: [
     {
-      asgName: 'asg-dev-centralus'
+      asgName: 'asg-dev-hub-centralus'
+      location: location
+      resourceGroupName: 'rg-dev-n'
+    }
+    {
+      asgName: 'asg-dev-spoke-centralus'
       location: location
       resourceGroupName: 'rg-dev-n'
     }
@@ -167,7 +177,7 @@ param landingZones = {
 
   keyVaults: [
     {
-      keyVaultName: 'kv-test-dev-centralus120901'
+      keyVaultName: 'kv-dev-cu120901'
       resourceGroupName: 'rg-dev-n'
       location: location
     }
