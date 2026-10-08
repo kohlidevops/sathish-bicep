@@ -8,6 +8,9 @@ param landingZones object
 @secure()
 param vmAdminPassword string
 
+@secure()
+param sqlAdministratorLoginPassword string
+
 
 // Resource Group
 module rModule 'resourcegroup.bicep' = [
@@ -163,6 +166,32 @@ module keyvault 'security/keyvault.bicep' = [
     params: {
       keyVaultName: kv.keyVaultName
       location: kv.location
+    }
+  }
+]
+
+
+// Azure SQL
+module sqlModule 'database/sqlServer.bicep' = [
+  for sql in landingZones.sqlServers: {
+    name: 'sql-${sql.sqlServerName}-${environment}-${location}'
+    scope: resourceGroup(sql.resourceGroupName)
+
+    dependsOn: [
+      rModule
+    ]
+
+    params: {
+      sqlServerName: sql.sqlServerName
+      sqlDatabaseName: sql.sqlDatabaseName
+      location: sql.location
+      administratorLogin: sql.administratorLogin
+      administratorLoginPassword: sqlAdministratorLoginPassword
+      databaseSkuName: sql.databaseSkuName
+      databaseMaxSizeBytes: sql.databaseMaxSizeBytes
+      minimalTlsVersion: sql.minimalTlsVersion
+      publicNetworkAccess: sql.publicNetworkAccess
+      tags: sql.tags
     }
   }
 ]
