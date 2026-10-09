@@ -171,6 +171,26 @@ module keyvault 'security/keyvault.bicep' = [
 ]
 
 
+// Azure Container Registry
+module acrModule 'containers/acr.bicep' = [
+  for acr in landingZones.containerRegistries: {
+    name: 'acr-${acr.registryName}-${environment}-${location}'
+    scope: resourceGroup(acr.resourceGroupName)
+
+    dependsOn: [
+      rModule
+    ]
+
+    params: {
+      registryName: acr.registryName
+      location: acr.location
+      sku: acr.sku
+      tags: acr.tags
+    }
+  }
+]
+
+
 // Azure SQL
 module sqlModule 'database/sqlServer.bicep' = [
   for sql in landingZones.sqlServers: {
