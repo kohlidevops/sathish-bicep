@@ -187,6 +187,22 @@ param landingZones = {
     }
   ]
 
+  // Azure Container Registry
+  containerRegistries: [
+    {
+      registryName: 'acrdevcu120901'
+      resourceGroupName: 'rg-dev-n'
+      location: location
+      sku: 'Basic'
+      tags: {
+        Environment: environment
+        CostCenter: 'CC1001'
+        Application: 'LandingZone'
+        Team: 'CloudOps'
+      }
+    }
+  ]
+
   // Azure SQL
   sqlServers: [
     {
